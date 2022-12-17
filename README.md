@@ -13,7 +13,7 @@ This project has a purpose of visualizing global investment indices on a single 
 
 ## Development Env
 
-Runtime - Node.js v14
-Framework & Library - React, Electron
-Language - Typescript
-Target OS - Windows10, macOS
+- Runtime: Node.js v14
+- Framework & Library: React, Electron
+- Language: Typescript
+- Target OS: Windows10, macOS
