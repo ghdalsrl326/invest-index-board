@@ -1,0 +1,141 @@
+.box-outter-app {
+  width: 100vw;
+  height: 100vh;
+}
+
+.box-timezone {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 6vh;
+  margin-bottom: 2vh;
+  background: #333f48;
+  color: white;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 36px;
+}
+
+.box-timezone-date {
+  margin-left: 3%;
+}
+
+.box-timezone-clock {
+  display: flex;
+  flex-direction: row;
+  margin-right: 3%;
+}
+
+.box-outter-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.box-left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25%;
+  height: 90vh;
+}
+
+.box-center-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 40%;
+  height: 90vh;
+}
+
+.box-right-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25vw;
+  height: 90vh;
+}
+
+/* left column */
+.box-sp500 {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-dow {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-nasdaq {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-nasdaqfuture {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-sox {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+/* center column */
+.box-usdkrw {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-banner {
+  background: #f5f4f5;
+  border-radius: 20px;
+  aspect-ratio: 4 / 3;
+}
+
+.box-us10yearbond {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+/* right column */
+.box-kospi {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-kosdaq {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-ssec {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-bitcoin {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
+
+.box-kimchi {
+  background: #f5f4f5;
+  border-radius: 20px;
+  height: 15vh;
+}
