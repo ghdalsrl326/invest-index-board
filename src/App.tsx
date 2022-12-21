@@ -58,51 +58,77 @@ function App() {
     ipcRenderer.send(SEND_SSEC_PING, "send");
     ipcRenderer.send(SEND_BITCOIN_PING, "send");
     ipcRenderer.send(SEND_KIMCHIPREMIUM_PING, "send");
+
+    replyPing();
   };
 
-  // const dow = ipcRenderer.on("REPLY_DOW_PING", (event, res) => {
-  //   console.log(res);
-  // });
-
   const replyPing = () => {
-    ipcRenderer.on(REPLY_SP500_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_DOW_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_NASDAQ_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_NASDAQFUTURE_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_SOX_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_USDKRW_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_KOSPI_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_KOSDAQ_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_US10YEARBOND_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_SSEC_PING, (event, res) => {});
-    ipcRenderer.on(REPLY_BITCOIN_PING, (event, res) => {});
+    ipcRenderer.on(REPLY_SP500_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_DOW_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_NASDAQ_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_NASDAQFUTURE_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_SOX_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_USDKRW_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_KOSPI_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_KOSDAQ_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_US10YEARBOND_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_SSEC_PING, (event, res) => {
+      console.log(res);
+    });
+    ipcRenderer.on(REPLY_BITCOIN_PING, (event, res) => {
+      console.log(res);
+    });
   };
 
   const today = new Date();
-  const [minute, setMinute] = useState<number>(today.getMinutes());
 
   return (
     <Box className="box-outter-app">
       <Box className="box-timezone">
-        {/*TODO: 날짜 바뀌면 리렌더링 되도록 수정 필요*/}
         <Box className="box-timezone-date">{`${today.getFullYear()}년 ${
           today.getMonth() + 1
         }월 ${today.getDate()}일`}</Box>
         <Box className="box-timezone-clock">
-          <div>{"협정세계시(UTC)"}</div>
-          <Clock
-            format={"HH:mm"}
-            ticking={true}
-            timezone={"UTC"}
-            onChange={() => {
-              setMinute(new Date().getMinutes());
-              console.log(minute);
-            }}
-          />
-          <div>{"미국시간"}</div>
-          <Clock format={"HH:mm"} ticking={true} timezone={"US/Eastern"} />
-          <div>{"한국시간"}</div>
-          <Clock format={"HH:mm"} ticking={true} timezone={"ROK"} />
+          <Box className="box-timzone-utc">
+            <>{"협정세계시(UTC) "}</>
+            <Clock
+              format={"HH:mm"}
+              ticking={true}
+              timezone={"UTC"}
+              onChange={async () => {
+                console.log(new Date().getSeconds());
+                if (new Date().getSeconds() === 0) {
+                  await sendPing();
+                }
+              }}
+            />
+          </Box>
+          <Box className="box-timzone-us">
+            <>{" 미국시간 "}</>
+            <Clock format={"HH:mm"} ticking={true} timezone={"US/Eastern"} />
+          </Box>
+          <Box className="box-timzone-rok">
+            <>{" 한국시간 "}</>
+            <Clock format={"HH:mm"} ticking={true} timezone={"ROK"} />
+          </Box>
         </Box>
       </Box>
       <Box className="box-outter-content">

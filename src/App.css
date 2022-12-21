@@ -16,7 +16,7 @@
   font-style: normal;
   font-weight: 700;
   font-size: 1.3rem;
-  line-height: 36px;
+  line-height: 25px;
 }
 
 .box-timezone-date {
@@ -26,7 +26,24 @@
 .box-timezone-clock {
   display: flex;
   flex-direction: row;
-  margin-right: 3%;
+  margin-right: 2%;
+  justify-content: space-evenly;
+  width: 50%;
+}
+
+.box-timezone-utc {
+  display: flex;
+  flex-direction: row;
+}
+
+.box-timezone-us {
+  display: flex;
+  flex-direction: row;
+}
+
+.box-timezone-rok {
+  display: flex;
+  flex-direction: row;
 }
 
 .box-outter-content {
