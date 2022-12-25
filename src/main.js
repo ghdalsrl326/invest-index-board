@@ -97,9 +97,9 @@ function getInvestingComRateBonds(url, event, replyChannel) {
     .then((html) => {
       const $ = cheerio.load(html.data);
       const price = $(".arial_26.inlineblock.pid-23705-last").text();
-      const priceChange = $(".arial_20.redFont.pid-23705-pc").text();
+      const priceChange = $(".arial_20.pid-23705-pc").text();
       const priceChangePercentage = $(
-        ".arial_20.redFont.pid-23705-pcp.parentheses"
+        ".arial_20.pid-23705-pcp.parentheses"
       ).text();
       const res = price + " " + priceChange + " " + priceChangePercentage;
       console.log(
@@ -118,9 +118,14 @@ function getInvestingComCrypto(url, event, replyChannel) {
     .then((html) => {
       const $ = cheerio.load(html.data);
       const price = $(".pid-1057391-last").text();
-      const priceChange = $(".arial_20").text();
-      const res = price + " " + priceChange;
-      console.log(`${replyChannel}: ${price} ${priceChange}`);
+      const priceChange = $(".arial_20.pid-1057391-pc").text();
+      const priceChangePercentage = $(
+        ".arial_20.pid-1057391-pcp.parentheses"
+      ).text();
+      const res = price + " " + priceChange + " " + priceChangePercentage;
+      console.log(
+        `${replyChannel}: ${price} ${priceChange} ${priceChangePercentage}`
+      );
       event.reply(replyChannel, res);
     })
     .catch((e) => {

@@ -1,0 +1,269 @@
+.box-outter-app {
+  width: 100vw;
+  height: 100vh;
+}
+
+.box-timezone {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 6vh;
+  margin-bottom: 2vh;
+  background: #333f48;
+  color: white;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 25px;
+
+  .box-timezone-date {
+    margin-left: 3%;
+  }
+
+  .box-timezone-clock {
+    display: flex;
+    flex-direction: row;
+    margin-right: 2%;
+    justify-content: space-evenly;
+    width: 50%;
+  }
+
+  .box-timezone-utc {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .box-timezone-us {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .box-timezone-rok {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.box-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  .box-left-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    height: 90vh;
+  }
+
+  .box-center-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 40%;
+    height: 90vh;
+  }
+
+  .box-right-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25vw;
+    height: 90vh;
+  }
+}
+
+@mixin box-indices {
+  background: #f5f4f5;
+  border-radius: 10px;
+  height: 15vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 5%;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+@mixin box-indices-subtitle {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 1rem;
+  line-height: 30px;
+}
+
+@mixin box-indices-price {
+  display: flex;
+  flex-direction: row;
+}
+
+/* left column */
+.box-sp500 {
+  @include box-indices;
+
+  .div-sp500-title {
+  }
+
+  .div-sp500-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-sp500-price {
+    @include box-indices-price;
+  }
+}
+
+.box-dow {
+  @include box-indices;
+  .div-dow-title {
+  }
+
+  .div-dow-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-dow-price {
+    @include box-indices-price;
+  }
+}
+
+.box-nasdaq {
+  @include box-indices;
+  .div-nasdaq-title {
+  }
+
+  .div-nasdaq-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-nasdaq-price {
+    @include box-indices-price;
+  }
+}
+
+.box-nasdaqfuture {
+  @include box-indices;
+  .div-nasdaqfuture-title {
+  }
+
+  .div-nasdaqfuture-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-nasdaqfuture-price {
+    @include box-indices-price;
+  }
+}
+
+.box-sox {
+  @include box-indices;
+  .div-sox-title {
+  }
+
+  .div-sox-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-sox-price {
+    @include box-indices-price;
+  }
+}
+
+/* center column */
+.box-usdkrw {
+  @include box-indices;
+  .div-usdkrw-title {
+  }
+
+  .div-usdkrw-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-usdkrw-price {
+    @include box-indices-price;
+  }
+}
+
+.box-banner {
+  background: #f5f4f5;
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;
+}
+
+.box-us10yearbond {
+  @include box-indices;
+  .div-us10yearbond-title {
+  }
+
+  .div-us10yearbond-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-us10yearbond-price {
+    @include box-indices-price;
+  }
+}
+
+/* right column */
+.box-kospi {
+  @include box-indices;
+  .div-kospi-title {
+  }
+
+  .div-kospi-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-kospi-price {
+    @include box-indices-price;
+  }
+}
+
+.box-kosdaq {
+  @include box-indices;
+  .div-kosdaq-title {
+  }
+
+  .div-kosdaq-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-kosdaq-price {
+    @include box-indices-price;
+  }
+}
+
+.box-ssec {
+  @include box-indices;
+  .div-ssec-title {
+  }
+
+  .div-ssec-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-ssec-price {
+    @include box-indices-price;
+  }
+}
+
+.box-bitcoin {
+  @include box-indices;
+  .div-bitcoin-title {
+  }
+
+  .div-bitcoin-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-bitcoin-price {
+    @include box-indices-price;
+  }
+}
+
+.box-kimchi {
+  @include box-indices;
+  .div-kimchi-title {
+  }
+
+  .div-kimchi-subtitle {
+    @include box-indices-subtitle;
+  }
+  .div-kimchi-price {
+    @include box-indices-price;
+  }
+}
