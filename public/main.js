@@ -2,6 +2,10 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const isDev = require("electron-is-dev");
+const pie = require("puppeteer-in-electron");
+const puppeteer = require("puppeteer-core");
+
 const {
   SEND_BITCOIN_PING,
   SEND_DOW_PING,
@@ -39,7 +43,37 @@ function createWindow() {
   });
   win.maximize();
   win.show();
-  win.loadURL("http://localhost:3000");
+  if (isDev) {
+    win.loadURL("http://localhost:3000");
+  } else {
+    win.loadFile(path.join(__dirname, "../build/index.html"));
+  }
+}
+
+const initPuppeteer = async () => {
+  await pie.initialize(app);
+};
+initPuppeteer();
+
+async function getKimchiPremium(event, replyChannel) {
+  const browser = await pie.connect(app, puppeteer);
+
+  const window = new BrowserWindow({ show: false });
+  const url = "https://cryprice.com/";
+  await window.loadURL(url);
+
+  const page = await pie.getPage(browser, window);
+  await page.waitForSelector("#upbit_binance_btc", { visible: true });
+  const data = await page.$("#upbit_binance_btc");
+  const evalData = await page.evaluate((element) => {
+    return element.textContent
+      .split(" ")
+      .at(-1)
+      .replace("(", "")
+      .replace(")", "");
+  }, data);
+  event.reply(replyChannel, evalData);
+  window.destroy();
 }
 
 app.whenReady().then(() => {
@@ -80,9 +114,9 @@ function getInvestingComIndices(url, event, replyChannel) {
       ).text();
 
       const res = price + " " + priceChange + " " + priceChangePercentage;
-      console.log(
-        `${replyChannel}: ${price} ${priceChange} ${priceChangePercentage}`
-      );
+      // console.log(
+      //   `${replyChannel}: ${price} ${priceChange} ${priceChangePercentage}`
+      // );
       event.reply(replyChannel, res);
     })
     .catch((e) => {
@@ -90,7 +124,6 @@ function getInvestingComIndices(url, event, replyChannel) {
     });
 }
 
-//TODO: tag에 redfont 들어가는게 맞나?
 function getInvestingComRateBonds(url, event, replyChannel) {
   axios
     .get(url, { headers: headersInvestingCom })
@@ -102,9 +135,9 @@ function getInvestingComRateBonds(url, event, replyChannel) {
         ".arial_20.pid-23705-pcp.parentheses"
       ).text();
       const res = price + " " + priceChange + " " + priceChangePercentage;
-      console.log(
-        `${replyChannel}: ${price} ${priceChange} ${priceChangePercentage}`
-      );
+      // console.log(
+      //   `${replyChannel}: ${price} ${priceChange} ${priceChangePercentage}`
+      // );
       event.reply(replyChannel, res);
     })
     .catch((e) => {
@@ -123,9 +156,9 @@ function getInvestingComCrypto(url, event, replyChannel) {
         ".arial_20.pid-1057391-pcp.parentheses"
       ).text();
       const res = price + " " + priceChange + " " + priceChangePercentage;
-      console.log(
-        `${replyChannel}: ${price} ${priceChange} ${priceChangePercentage}`
-      );
+      // console.log(
+      //   `${replyChannel}: ${price} ${priceChange} ${priceChangePercentage}`
+      // );
       event.reply(replyChannel, res);
     })
     .catch((e) => {
@@ -186,4 +219,8 @@ ipcMain.on(SEND_SSEC_PING, (event, arg) => {
 ipcMain.on(SEND_BITCOIN_PING, (event, arg) => {
   const url = "https://www.investing.com/crypto/bitcoin";
   getInvestingComCrypto(url, event, REPLY_BITCOIN_PING);
+});
+
+ipcMain.on(SEND_KIMCHIPREMIUM_PING, (event, arg) => {
+  getKimchiPremium(event, REPLY_KIMCHIPREMIUM_PING);
 });

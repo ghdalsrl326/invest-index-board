@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import {
   SEND_BITCOIN_PING,
@@ -95,71 +95,74 @@ function App() {
   };
 
   const replyPing = () => {
-    ipcRenderer.on(REPLY_SP500_PING, (event, res) => {
+    ipcRenderer.once(REPLY_SP500_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setSP500p(price);
       setSP500pc(priceChange);
       setSP500pcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_DOW_PING, (event, res) => {
+    ipcRenderer.once(REPLY_DOW_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setDOWp(price);
       setDOWpc(priceChange);
       setDOWpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_NASDAQ_PING, (event, res) => {
+    ipcRenderer.once(REPLY_NASDAQ_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setNASDAQp(price);
       setNASDAQpc(priceChange);
       setNASDAQpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_NASDAQFUTURE_PING, (event, res) => {
+    ipcRenderer.once(REPLY_NASDAQFUTURE_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setNASDAQFUTUREp(price);
       setNASDAQFUTUREpc(priceChange);
       setNASDAQFUTUREpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_SOX_PING, (event, res) => {
+    ipcRenderer.once(REPLY_SOX_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setSOXp(price);
       setSOXpc(priceChange);
       setSOXpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_USDKRW_PING, (event, res) => {
+    ipcRenderer.once(REPLY_USDKRW_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setUSDKRWp(price);
       setUSDKRWpc(priceChange);
       setUSDKRWpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_KOSPI_PING, (event, res) => {
+    ipcRenderer.once(REPLY_KOSPI_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setKOSPIp(price);
       setKOSPIpc(priceChange);
       setKOSPIpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_KOSDAQ_PING, (event, res) => {
+    ipcRenderer.once(REPLY_KOSDAQ_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setKOSDAQp(price);
       setKOSDAQpc(priceChange);
       setKOSDAQpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_US10YEARBOND_PING, (event, res) => {
+    ipcRenderer.once(REPLY_US10YEARBOND_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setUS10YEARBONDp(price);
       setUS10YEARBONDpc(priceChange);
       setUS10YEARBONDpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_SSEC_PING, (event, res) => {
+    ipcRenderer.once(REPLY_SSEC_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setSSECp(price);
       setSSECpc(priceChange);
       setSSECpcp(priceChangePercentage);
     });
-    ipcRenderer.on(REPLY_BITCOIN_PING, (event, res) => {
+    ipcRenderer.once(REPLY_BITCOIN_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setBITCOINp(price);
       setBITCOINpc(priceChange);
       setBITCOINpcp(priceChangePercentage);
+    });
+    ipcRenderer.once(REPLY_KIMCHIPREMIUM_PING, (event, res) => {
+      setKIMCHIPREMIUMpc(res);
     });
   };
 
@@ -199,7 +202,36 @@ function App() {
     }
   }
 
+  function switchArrowKimchi(priceChange: string) {
+    if (parseFloat(priceChange.replace("%", "")) > 0) {
+      return (
+        <>
+          <UploadIcon fontSize="large" sx={{ color: "#D02C2C" }} />
+          <Box sx={{ color: "#D02C2C" }}>{priceChange}</Box>
+        </>
+      );
+    } else if (parseFloat(priceChange.replace("%", "")) < 0) {
+      return (
+        <>
+          <DownloadIcon fontSize="large" sx={{ color: "#127EFF" }} />
+          <Box sx={{ color: "#127EFF" }}>{priceChange}</Box>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <DragHandleIcon fontSize="large" />
+          <Box>{priceChange}</Box>
+        </>
+      );
+    }
+  }
+
   const today = new Date();
+
+  useEffect(() => {
+    sendPing();
+  }, []);
 
   return (
     <Box className="box-outter-app">
@@ -243,21 +275,21 @@ function App() {
             </div>
           </Box>
           <Box className="box-dow">
-            <div className="div-dow-title">{"S&P500"}</div>
+            <div className="div-dow-title">{"DJI"}</div>
             <div className="div-dow-subtitle">{"다우 (24H 변동 %)"}</div>
             <div className="div-dow-price">
               {switchArroow(DOWp, DOWpc, DOWpcp)}
             </div>
           </Box>
           <Box className="box-nasdaq">
-            <div className="div-nasdaq-title">{"S&P500"}</div>
+            <div className="div-nasdaq-title">{"IXIC"}</div>
             <div className="div-nasdaq-subtitle">{"나스닥 (24H 변동 %)"}</div>
             <div className="div-nasdaq-price">
               {switchArroow(NASDAQp, NASDAQpc, NASDAQpcp)}
             </div>
           </Box>
           <Box className="box-nasdaqfuture">
-            <div className="div-nasdaqfuture-title">{"S&P500"}</div>
+            <div className="div-nasdaqfuture-title">{"Nasdaq 100 Futures"}</div>
             <div className="div-nasdaqfuture-subtitle">
               {"나스닥 선물 (24H 변동 %)"}
             </div>
@@ -266,7 +298,7 @@ function App() {
             </div>
           </Box>
           <Box className="box-sox">
-            <div className="div-sox-title">{"S&P500"}</div>
+            <div className="div-sox-title">{"SOX"}</div>
             <div className="div-sox-subtitle">
               {"필라델피아반도체 (24H 변동 %)"}
             </div>
@@ -277,7 +309,7 @@ function App() {
         </Box>
         <Box className="box-center-column">
           <Box className="box-usdkrw">
-            <div className="div-usdkrw-title">{"S&P500"}</div>
+            <div className="div-usdkrw-title">{"USD/KRW"}</div>
             <div className="div-usdkrw-subtitle">
               {"달러/원환율 (24H 변동 %)"}
             </div>
@@ -287,7 +319,9 @@ function App() {
           </Box>
           <Box className="box-banner">banner</Box>
           <Box className="box-us10yearbond">
-            <div className="div-us10yearbond-title">{"S&P500"}</div>
+            <div className="div-us10yearbond-title">
+              {"US 10-Year Bond Yield"}
+            </div>
             <div className="div-us10yearbond-subtitle">
               {"미국 국채 10년물 (24H 변동 %)"}
             </div>
@@ -298,21 +332,21 @@ function App() {
         </Box>
         <Box className="box-right-column">
           <Box className="box-kospi">
-            <div className="div-kospi-title">{"S&P500"}</div>
+            <div className="div-kospi-title">{"KS11"}</div>
             <div className="div-kospi-subtitle">{"코스피 (24H 변동 %)"}</div>
             <div className="div-kospi-price">
               {switchArroow(KOSPIp, KOSPIpc, KOSPIpcp)}
             </div>
           </Box>
           <Box className="box-kosdaq">
-            <div className="div-kosdaq-title">{"S&P500"}</div>
+            <div className="div-kosdaq-title">{"KQ11"}</div>
             <div className="div-kosdaq-subtitle">{"코스닥 (24H 변동 %)"}</div>
             <div className="div-kosdaq-price">
               {switchArroow(KOSDAQp, KOSDAQpc, KOSDAQpcp)}
             </div>
           </Box>
           <Box className="box-ssec">
-            <div className="div-ssec-title">{"S&P500"}</div>
+            <div className="div-ssec-title">{"SSEC"}</div>
             <div className="div-ssec-subtitle">
               {"상해종합주가지수 (24H 변동 %)"}
             </div>
@@ -321,17 +355,17 @@ function App() {
             </div>
           </Box>
           <Box className="box-bitcoin">
-            <div className="div-bitcoin-title">{"S&P500"}</div>
+            <div className="div-bitcoin-title">{"Bitcoin"}</div>
             <div className="div-bitcoin-subtitle">{"비트코인 (1BTC = $)"}</div>
             <div className="div-bitcoin-price">
               {switchArroow(BITCOINp, BITCOINpc, BITCOINpcp)}
             </div>
           </Box>
           <Box className="box-kimchi">
-            <div className="div-kimchi-title">{"S&P500"}</div>
+            <div className="div-kimchi-title">{"Kimchi Premium"}</div>
             <div className="div-kimchi-subtitle">{"김치프리미엄(%) "}</div>
             <div className="div-kimchi-price">
-              {switchArroow(KIMCHIPREMIUMp, KIMCHIPREMIUMpc, KIMCHIPREMIUMpcp)}
+              {switchArrowKimchi(KIMCHIPREMIUMpc)}
             </div>
           </Box>
         </Box>

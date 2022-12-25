@@ -1,0 +1,28 @@
+module.exports = {
+  //SEND
+  SEND_SP500_PING: "send_sp500_ping",
+  SEND_DOW_PING: "send_dow_ping",
+  SEND_NASDAQ_PING: "send_nasdaq_ping",
+  SEND_NASDAQFUTURE_PING: "send_nasdaqfuture_ping",
+  SEND_SOX_PING: "send_sox_ping",
+  SEND_USDKRW_PING: "send_usdkrw_ping",
+  SEND_KOSPI_PING: "send_kospi_ping",
+  SEND_KOSDAQ_PING: "send_kosdaq_ping",
+  SEND_US10YEARBOND_PING: "send_us10yearbond_ping",
+  SEND_SSEC_PING: "send_ssec_ping",
+  SEND_BITCOIN_PING: "send_bitcoin_ping",
+  SEND_KIMCHIPREMIUM_PING: "send_kimchipremium_ping",
+  //REPLY
+  REPLY_SP500_PING: "reply_sp500_ping",
+  REPLY_DOW_PING: "reply_dow_ping",
+  REPLY_NASDAQ_PING: "reply_nasdaq_ping",
+  REPLY_NASDAQFUTURE_PING: "reply_nasdaqfuture_ping",
+  REPLY_SOX_PING: "reply_sox_ping",
+  REPLY_USDKRW_PING: "reply_usdkrw_ping",
+  REPLY_KOSPI_PING: "reply_kospi_ping",
+  REPLY_KOSDAQ_PING: "reply_kosdaq_ping",
+  REPLY_US10YEARBOND_PING: "reply_us10yearbond_ping",
+  REPLY_SSEC_PING: "reply_ssec_ping",
+  REPLY_BITCOIN_PING: "reply_bitcoin_ping",
+  REPLY_KIMCHIPREMIUM_PING: "reply_kimchipremium_ping",
+};
