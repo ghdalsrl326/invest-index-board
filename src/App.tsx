@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Icon } from "@mui/material";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import {
@@ -29,9 +29,15 @@ import {
 } from "./constants";
 import "./App.scss";
 import "@fontsource/inter";
+import IconButton from "@mui/material/IconButton";
+import SettingsIcon from "@mui/icons-material/Settings";
 import DownloadIcon from "@mui/icons-material/Download";
 import UploadIcon from "@mui/icons-material/Upload";
-import DragHandleIcon from "@mui/icons-material/DragHandle";
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import StopIcon from "@mui/icons-material/Stop";
+import SlideShow from "./SlideShow";
 
 function App() {
   const { ipcRenderer } = window.require("electron");
@@ -147,7 +153,7 @@ function App() {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setUS10YEARBONDp(price);
       setUS10YEARBONDpc(priceChange);
-      setUS10YEARBONDpcp(priceChangePercentage);
+      setUS10YEARBONDpcp("(" + priceChangePercentage + ")");
     });
     ipcRenderer.once(REPLY_SSEC_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
@@ -159,7 +165,7 @@ function App() {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setBITCOINp(price);
       setBITCOINpc(priceChange);
-      setBITCOINpcp(priceChangePercentage);
+      setBITCOINpcp("(" + priceChangePercentage + ")");
     });
     ipcRenderer.once(REPLY_KIMCHIPREMIUM_PING, (event, res) => {
       setKIMCHIPREMIUMpc(res);
@@ -175,27 +181,30 @@ function App() {
       case "+":
         return (
           <>
-            <UploadIcon fontSize="large" sx={{ color: "#D02C2C" }} />
+            <Box sx={{ color: "#D02C2C", fontSize: "1.6rem" }}>{price}</Box>
+            <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
             <Box sx={{ color: "#D02C2C" }}>
-              {price} {priceChange} {priceChangePercentage}
+              {priceChange} {priceChangePercentage}
             </Box>
           </>
         );
       case "-":
         return (
           <>
-            <DownloadIcon fontSize="large" sx={{ color: "#127EFF" }} />
+            <Box sx={{ color: "#127EFF", fontSize: "1.6rem" }}>{price}</Box>
+            <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
             <Box sx={{ color: "#127EFF" }}>
-              {price} {priceChange} {priceChangePercentage}
+              {priceChange} {priceChangePercentage}
             </Box>
           </>
         );
       default:
         return (
           <>
-            <DragHandleIcon fontSize="large" />
+            <Box sx={{ fontSize: "1.6rem" }}>{price}</Box>
+            <HorizontalRuleIcon fontSize="medium" />
             <Box>
-              {price} {priceChange} {priceChangePercentage}
+              {priceChange} {priceChangePercentage}
             </Box>
           </>
         );
@@ -206,22 +215,22 @@ function App() {
     if (parseFloat(priceChange.replace("%", "")) > 0) {
       return (
         <>
-          <UploadIcon fontSize="large" sx={{ color: "#D02C2C" }} />
-          <Box sx={{ color: "#D02C2C" }}>{priceChange}</Box>
+          <Box sx={{ color: "#D02C2C", fontSize: "1.6rem" }}>{priceChange}</Box>
+          <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
         </>
       );
     } else if (parseFloat(priceChange.replace("%", "")) < 0) {
       return (
         <>
-          <DownloadIcon fontSize="large" sx={{ color: "#127EFF" }} />
-          <Box sx={{ color: "#127EFF" }}>{priceChange}</Box>
+          <Box sx={{ color: "#127EFF", fontSize: "1.6rem" }}>{priceChange}</Box>
+          <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
         </>
       );
     } else {
       return (
         <>
-          <DragHandleIcon fontSize="large" />
           <Box>{priceChange}</Box>
+          <HorizontalRuleIcon fontSize="medium" />
         </>
       );
     }
@@ -317,7 +326,25 @@ function App() {
               {switchArroow(USDKRWp, USDKRWpc, USDKRWpcp)}
             </div>
           </Box>
-          <Box className="box-banner">banner</Box>
+          <Box className="box-slideouter">
+            <Box className="box-slidesettings">
+              <IconButton className="btn-slidesettings">
+                <PlayArrowIcon fontSize="small" />
+              </IconButton>
+              <IconButton className="btn-slidesettings">
+                <PauseIcon fontSize="small" />
+              </IconButton>
+              <IconButton className="btn-slidesettings">
+                <StopIcon fontSize="small" />
+              </IconButton>
+              <IconButton className="btn-slidesettings">
+                <SettingsIcon fontSize="small" />
+              </IconButton>
+            </Box>
+            <Box className="box-banner">
+              <SlideShow />
+            </Box>
+          </Box>
           <Box className="box-us10yearbond">
             <div className="div-us10yearbond-title">
               {"US 10-Year Bond Yield"}
@@ -362,7 +389,7 @@ function App() {
             </div>
           </Box>
           <Box className="box-kimchi">
-            <div className="div-kimchi-title">{"Kimchi Premium"}</div>
+            <div className="div-kimchi-title">{"Kimchi Premium (BTC)"}</div>
             <div className="div-kimchi-subtitle">{"김치프리미엄(%) "}</div>
             <div className="div-kimchi-price">
               {switchArrowKimchi(KIMCHIPREMIUMpc)}
