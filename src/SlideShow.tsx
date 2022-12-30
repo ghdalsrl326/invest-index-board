@@ -13,7 +13,11 @@ const SlideShow = () => {
       PrevIcon={<NavigateBeforeIcon sx={{ color: "white" }} />}
     >
       <div className="img-container">
-        <img className="image" src="https://picsum.photos/500/300" alt="test" />
+        <img
+          className="image"
+          src="https://picsum.photos/1600/1200"
+          alt="test"
+        />
       </div>
     </Carousel>
   );

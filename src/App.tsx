@@ -1,4 +1,4 @@
-import { Box, Icon } from "@mui/material";
+import { Box, Icon, Menu, MenuItem } from "@mui/material";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import {
@@ -238,6 +238,15 @@ function App() {
 
   const today = new Date();
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   useEffect(() => {
     sendPing();
   }, []);
@@ -262,7 +271,7 @@ function App() {
                 }
               }}
             />
-            <button onClick={() => sendPing()}>send ping</button>
+            {/* <button onClick={() => sendPing()}>send ping</button> */}
           </Box>
           <Box className="box-timzone-us">
             <>{" 미국시간 "}</>
@@ -337,9 +346,29 @@ function App() {
               <IconButton className="btn-slidesettings">
                 <StopIcon fontSize="small" />
               </IconButton>
-              <IconButton className="btn-slidesettings">
+              <IconButton
+                className="btn-slidesettings"
+                aria-controls={menuOpen ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={menuOpen ? "true" : undefined}
+                onClick={handleMenuClick}
+              >
                 <SettingsIcon fontSize="small" />
               </IconButton>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={menuOpen}
+                onClose={handleMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={handleMenuClose}>
+                  Image Upload & Remove
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose}>Slide Speed</MenuItem>
+              </Menu>
             </Box>
             <Box className="box-banner">
               <SlideShow />
