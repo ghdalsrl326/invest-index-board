@@ -1,4 +1,19 @@
-import { Box, Icon, Menu, MenuItem } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  Icon,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
+  Slider,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import {
@@ -26,18 +41,14 @@ import {
   REPLY_SSEC_PING,
   REPLY_BITCOIN_PING,
   REPLY_KIMCHIPREMIUM_PING,
-} from "./constants";
+} from "../constants";
 import "./App.scss";
 import "@fontsource/inter";
-import IconButton from "@mui/material/IconButton";
-import SettingsIcon from "@mui/icons-material/Settings";
 import DownloadIcon from "@mui/icons-material/Download";
 import UploadIcon from "@mui/icons-material/Upload";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
-import StopIcon from "@mui/icons-material/Stop";
 import SlideShow from "./SlideShow";
+import SlideSettings from "./SlideSettings";
 
 function App() {
   const { ipcRenderer } = window.require("electron");
@@ -180,33 +191,39 @@ function App() {
     switch (priceChange.charAt(0)) {
       case "+":
         return (
-          <>
+          <Box
+            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+          >
             <Box sx={{ color: "#D02C2C", fontSize: "1.6rem" }}>{price}</Box>
             <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
             <Box sx={{ color: "#D02C2C" }}>
               {priceChange} {priceChangePercentage}
             </Box>
-          </>
+          </Box>
         );
       case "-":
         return (
-          <>
+          <Box
+            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+          >
             <Box sx={{ color: "#127EFF", fontSize: "1.6rem" }}>{price}</Box>
             <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
             <Box sx={{ color: "#127EFF" }}>
               {priceChange} {priceChangePercentage}
             </Box>
-          </>
+          </Box>
         );
       default:
         return (
-          <>
+          <Box
+            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+          >
             <Box sx={{ fontSize: "1.6rem" }}>{price}</Box>
             <HorizontalRuleIcon fontSize="medium" />
             <Box>
               {priceChange} {priceChangePercentage}
             </Box>
-          </>
+          </Box>
         );
     }
   }
@@ -214,38 +231,35 @@ function App() {
   function switchArrowKimchi(priceChange: string) {
     if (parseFloat(priceChange.replace("%", "")) > 0) {
       return (
-        <>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
           <Box sx={{ color: "#D02C2C", fontSize: "1.6rem" }}>{priceChange}</Box>
           <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
-        </>
+        </Box>
       );
     } else if (parseFloat(priceChange.replace("%", "")) < 0) {
       return (
-        <>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
           <Box sx={{ color: "#127EFF", fontSize: "1.6rem" }}>{priceChange}</Box>
           <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
-        </>
+        </Box>
       );
     } else {
       return (
-        <>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
           <Box>{priceChange}</Box>
           <HorizontalRuleIcon fontSize="medium" />
-        </>
+        </Box>
       );
     }
   }
 
   const today = new Date();
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const menuOpen = Boolean(anchorEl);
-  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
 
   useEffect(() => {
     sendPing();
@@ -337,38 +351,7 @@ function App() {
           </Box>
           <Box className="box-slideouter">
             <Box className="box-slidesettings">
-              <IconButton className="btn-slidesettings">
-                <PlayArrowIcon fontSize="small" />
-              </IconButton>
-              <IconButton className="btn-slidesettings">
-                <PauseIcon fontSize="small" />
-              </IconButton>
-              <IconButton className="btn-slidesettings">
-                <StopIcon fontSize="small" />
-              </IconButton>
-              <IconButton
-                className="btn-slidesettings"
-                aria-controls={menuOpen ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={menuOpen ? "true" : undefined}
-                onClick={handleMenuClick}
-              >
-                <SettingsIcon fontSize="small" />
-              </IconButton>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={menuOpen}
-                onClose={handleMenuClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
-                <MenuItem onClick={handleMenuClose}>
-                  Image Upload & Remove
-                </MenuItem>
-                <MenuItem onClick={handleMenuClose}>Slide Speed</MenuItem>
-              </Menu>
+              <SlideSettings />
             </Box>
             <Box className="box-banner">
               <SlideShow />

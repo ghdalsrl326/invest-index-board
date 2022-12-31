@@ -1,0 +1,31 @@
+.image-dialog-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+
+  .uploadimage-wrapper {
+    height: 100%;
+    overflow: auto;
+
+    .box-image-items {
+      display: flex;
+      flex-direction: row;
+      overflow: auto;
+
+      .image-items {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border: 0.8px solid;
+        border-color: #1876d1;
+        border-radius: 5px;
+        .image-items-btn-wrapper {
+          display: flex;
+          flex-direction: row;
+        }
+      }
+    }
+  }
+}
