@@ -1,19 +1,4 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  FormControl,
-  Icon,
-  InputLabel,
-  Menu,
-  MenuItem,
-  Select,
-  Slider,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import {
@@ -85,9 +70,9 @@ function App() {
   const [BITCOINp, setBITCOINp] = useState("");
   const [BITCOINpc, setBITCOINpc] = useState("");
   const [BITCOINpcp, setBITCOINpcp] = useState("");
-  const [KIMCHIPREMIUMp, setKIMCHIPREMIUMp] = useState("");
+  // const [KIMCHIPREMIUMp, setKIMCHIPREMIUMp] = useState("");
   const [KIMCHIPREMIUMpc, setKIMCHIPREMIUMpc] = useState("");
-  const [KIMCHIPREMIUMpcp, setKIMCHIPREMIUMpcp] = useState("");
+  // const [KIMCHIPREMIUMpcp, setKIMCHIPREMIUMpcp] = useState("");
 
   const sendPing = () => {
     ipcRenderer.send(SEND_SP500_PING, "send");
@@ -279,7 +264,7 @@ function App() {
               ticking={true}
               timezone={"UTC"}
               onChange={async () => {
-                console.log(new Date().getSeconds());
+                // console.log(new Date().getSeconds());
                 if (new Date().getSeconds() === 0) {
                   await sendPing();
                 }

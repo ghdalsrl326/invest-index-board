@@ -23,6 +23,8 @@ import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import React, { useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import "./SlideSettings.scss";
+import { useRecoilState } from "recoil";
+import { imageState } from "../store/RecoilStore";
 
 const SlideSettings = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -53,15 +55,15 @@ const SlideSettings = () => {
   const handleImageDialogClose = () => {
     setImageDialogOpen(false);
   };
-  const [images, setImages] = useState<ImageListType>([]);
+  const [images, setImages] = useRecoilState(imageState);
   const maxNumber = 69;
   const handleChangeImage = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
-    setImages(imageList);
+    setImages(imageList as never[]);
+    console.log(images, addUpdateIndex);
   };
 
   return (
