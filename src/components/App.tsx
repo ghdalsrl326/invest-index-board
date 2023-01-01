@@ -179,7 +179,7 @@ function App() {
           <Box
             sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
           >
-            <Box sx={{ color: "#D02C2C", fontSize: "1.6rem" }}>{price}</Box>
+            <Box sx={{ color: "#D02C2C", fontSize: "1.7rem" }}>{price}</Box>
             <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
             <Box sx={{ color: "#D02C2C" }}>
               {priceChange} {priceChangePercentage}
@@ -191,7 +191,7 @@ function App() {
           <Box
             sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
           >
-            <Box sx={{ color: "#127EFF", fontSize: "1.6rem" }}>{price}</Box>
+            <Box sx={{ color: "#127EFF", fontSize: "1.7rem" }}>{price}</Box>
             <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
             <Box sx={{ color: "#127EFF" }}>
               {priceChange} {priceChangePercentage}
@@ -203,7 +203,7 @@ function App() {
           <Box
             sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
           >
-            <Box sx={{ fontSize: "1.6rem" }}>{price}</Box>
+            <Box sx={{ fontSize: "1.7rem" }}>{price}</Box>
             <HorizontalRuleIcon fontSize="medium" />
             <Box>
               {priceChange} {priceChangePercentage}
@@ -219,7 +219,7 @@ function App() {
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
-          <Box sx={{ color: "#D02C2C", fontSize: "1.6rem" }}>{priceChange}</Box>
+          <Box sx={{ color: "#D02C2C", fontSize: "1.7rem" }}>{priceChange}</Box>
           <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
         </Box>
       );
@@ -228,7 +228,7 @@ function App() {
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
-          <Box sx={{ color: "#127EFF", fontSize: "1.6rem" }}>{priceChange}</Box>
+          <Box sx={{ color: "#127EFF", fontSize: "1.7rem" }}>{priceChange}</Box>
           <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
         </Box>
       );
