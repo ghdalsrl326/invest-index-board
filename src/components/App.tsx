@@ -264,8 +264,8 @@ function App() {
               ticking={true}
               timezone={"UTC"}
               onChange={async () => {
-                // console.log(new Date().getSeconds());
-                if (new Date().getSeconds() === 0) {
+                console.log(new Date().getUTCSeconds());
+                if (new Date().getUTCSeconds() === 0) {
                   await sendPing();
                 }
               }}

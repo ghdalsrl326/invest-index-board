@@ -70,7 +70,7 @@ const SlideSettings = () => {
     setImageDialogOpen(false);
   };
   const [images, setImages] = useRecoilState(imageState);
-  const maxNumber = 69;
+  const maxNumber = 50;
   const handleChangeImage = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
@@ -131,47 +131,63 @@ const SlideSettings = () => {
                 onImageRemove,
                 isDragging,
                 dragProps,
+                errors,
               }) => (
-                <Box className="uploadimage-wrapper">
-                  <Button
-                    style={isDragging ? { color: "red" } : undefined}
-                    onClick={onImageUpload}
-                    startIcon={<ImageSearchIcon />}
-                    size="large"
-                    {...dragProps}
-                  >
-                    업로드할 이미지 선택
-                  </Button>
-                  &nbsp;
-                  <Button
-                    onClick={onImageRemoveAll}
-                    startIcon={<DeleteIcon />}
-                    size="large"
-                  >
-                    전체 이미지 삭제
-                  </Button>
-                  <Box className="box-image-items">
-                    {imageList.map((image, index) => (
-                      <div key={index} className="image-items">
-                        <img src={image.dataURL} alt="" width="100" />
-                        <div className="image-items-btn-wrapper">
-                          <Button
-                            onClick={() => onImageUpdate(index)}
-                            size={"medium"}
-                          >
-                            교체
-                          </Button>
-                          <Button
-                            onClick={() => onImageRemove(index)}
-                            size={"medium"}
-                          >
-                            제거
-                          </Button>
+                <>
+                  {errors && (
+                    <div>
+                      {errors?.maxNumber && (
+                        <span>
+                          최대 이미지 업로드 개수 {`"${maxNumber}"`}개를
+                          초과했습니다.
+                        </span>
+                      )}
+                      {errors?.acceptType && (
+                        <span>선택한 파일의 확장자는 업로드할 수 없습니다</span>
+                      )}
+                    </div>
+                  )}
+                  <Box className="uploadimage-wrapper">
+                    <Button
+                      style={isDragging ? { color: "red" } : undefined}
+                      onClick={onImageUpload}
+                      startIcon={<ImageSearchIcon />}
+                      size="large"
+                      {...dragProps}
+                    >
+                      업로드할 이미지 선택
+                    </Button>
+                    &nbsp;
+                    <Button
+                      onClick={onImageRemoveAll}
+                      startIcon={<DeleteIcon />}
+                      size="large"
+                    >
+                      전체 이미지 삭제
+                    </Button>
+                    <Box className="box-image-items">
+                      {imageList.map((image, index) => (
+                        <div key={index} className="image-items">
+                          <img src={image.dataURL} alt="" width="100" />
+                          <div className="image-items-btn-wrapper">
+                            <Button
+                              onClick={() => onImageUpdate(index)}
+                              size={"medium"}
+                            >
+                              교체
+                            </Button>
+                            <Button
+                              onClick={() => onImageRemove(index)}
+                              size={"medium"}
+                            >
+                              제거
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </Box>
                   </Box>
-                </Box>
+                </>
               )}
             </ImageUploading>
           </DialogContent>
