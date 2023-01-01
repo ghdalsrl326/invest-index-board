@@ -24,7 +24,11 @@ import React, { useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import "./SlideSettings.scss";
 import { useRecoilState } from "recoil";
-import { imageState } from "../store/RecoilStore";
+import {
+  carouselInterval,
+  carouselPlayState,
+  imageState,
+} from "../store/RecoilStore";
 
 const SlideSettings = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -37,7 +41,11 @@ const SlideSettings = () => {
   };
 
   const [intervalDialogOpen, setIntervalDialogOpen] = useState<boolean>(false);
-  const [interval, setInterval] = useState<string>("10");
+  const [interval, setInterval] = useRecoilState(carouselInterval);
+  const intervalSteps = Array.from(
+    { length: 10 },
+    (value, i) => (i + 1) * 1000
+  );
   const handleIntervalDialogOpen = () => {
     setIntervalDialogOpen(true);
   };
@@ -46,6 +54,12 @@ const SlideSettings = () => {
   };
   const handleIntervalChange = (event: SelectChangeEvent) => {
     setInterval(event.target.value as string);
+  };
+
+  const [playState, setPlayState] = useRecoilState(carouselPlayState);
+
+  const handleChangePlayState = () => {
+    setPlayState(!playState);
   };
 
   const [imageDialogOpen, setImageDialogOpen] = useState<boolean>(false);
@@ -68,14 +82,12 @@ const SlideSettings = () => {
 
   return (
     <>
-      <IconButton className="btn-slidesettings">
-        <PlayArrowIcon fontSize="small" />
-      </IconButton>
-      <IconButton className="btn-slidesettings">
-        <PauseIcon fontSize="small" />
-      </IconButton>
-      <IconButton className="btn-slidesettings">
-        <StopIcon fontSize="small" />
+      <IconButton className="btn-slidesettings" onClick={handleChangePlayState}>
+        {playState ? (
+          <PlayArrowIcon fontSize="small" />
+        ) : (
+          <PauseIcon fontSize="small" />
+        )}
       </IconButton>
       <IconButton
         className="btn-slidesettings"
@@ -166,18 +178,11 @@ const SlideSettings = () => {
           <DialogActions>
             <Button
               onClick={handleImageDialogClose}
-              variant="outlined"
-              size="large"
-            >
-              취소
-            </Button>
-            <Button
-              onClick={handleImageDialogClose}
               variant="contained"
               autoFocus
               size="large"
             >
-              적용
+              닫기
             </Button>
           </DialogActions>
         </Dialog>
@@ -210,18 +215,22 @@ const SlideSettings = () => {
                 label="Interval"
                 onChange={handleIntervalChange}
               >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={30}>30</MenuItem>
-                <MenuItem value={40}>40</MenuItem>
-                <MenuItem value={50}>50</MenuItem>
+                {intervalSteps.map((intervalStep) => {
+                  return (
+                    <MenuItem value={intervalStep}>{intervalStep}</MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleIntervalDialogClose}>취소</Button>
-            <Button onClick={handleIntervalDialogClose} autoFocus>
-              적용
+            <Button
+              onClick={handleIntervalDialogClose}
+              variant="contained"
+              size="large"
+              autoFocus
+            >
+              닫기
             </Button>
           </DialogActions>
         </Dialog>
