@@ -34,6 +34,7 @@ import UploadIcon from "@mui/icons-material/Upload";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import SlideShow from "./SlideShow";
 import SlideSettings from "./SlideSettings";
+import AspectRatio from "@mui/joy/AspectRatio";
 
 function App() {
   const { ipcRenderer } = window.require("electron");

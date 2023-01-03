@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.10.5",
     "@fontsource/inter": "^4.5.14",
     "@mui/icons-material": "^5.11.0",
+    "@mui/joy": "^5.0.0-alpha.61",
     "@mui/material": "^5.11.0",
     "@mui/styles": "^5.11.2",
     "@testing-library/jest-dom": "^5.16.5",
@@ -46,7 +47,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "wait-on http://localhost:3000 && electron .",
-    "electron:build": "rm -rf ./dist && rm -rf ./build && yarn build && electron-builder -c.extraMetadata.main=build/main.js"
+    "electron:build": "rm -rf ./dist && rm -rf ./build && yarn build && electron-builder -c.extraMetadata.main=build/main.js",
+    "electron:build:windows": "rm -rf ./dist && rm -rf ./build && yarn build && electron-builder -w portable --x64 -c.extraMetadata.main=build/main.js"
   },
   "build": {
     "extends": null,

@@ -11,6 +11,7 @@ import {
 } from "../store/RecoilStore";
 import { useRecoilValue } from "recoil";
 import { ImageListType } from "react-images-uploading";
+import AspectRatio from "@mui/joy/AspectRatio";
 
 const SlideShow = () => {
   const images: ImageListType = useRecoilValue(imageState);
@@ -28,9 +29,9 @@ const SlideShow = () => {
       stopAutoPlayOnHover={false}
     >
       {images.map((image, index) => (
-        <div className="img-container">
+        <AspectRatio ratio="4/3" objectFit="fill">
           <img className="image" src={image.dataURL} alt="" />
-        </div>
+        </AspectRatio>
       ))}
     </Carousel>
   );
