@@ -34,7 +34,6 @@ import UploadIcon from "@mui/icons-material/Upload";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import SlideShow from "./SlideShow";
 import SlideSettings from "./SlideSettings";
-import AspectRatio from "@mui/joy/AspectRatio";
 
 function App() {
   const { ipcRenderer } = window.require("electron");
@@ -75,7 +74,7 @@ function App() {
   const [KIMCHIPREMIUMpc, setKIMCHIPREMIUMpc] = useState("");
   // const [KIMCHIPREMIUMpcp, setKIMCHIPREMIUMpcp] = useState("");
 
-  const sendPing = () => {
+  const sendPing = async () => {
     ipcRenderer.send(SEND_SP500_PING, "send");
     ipcRenderer.send(SEND_DOW_PING, "send");
     ipcRenderer.send(SEND_NASDAQ_PING, "send");
@@ -88,7 +87,6 @@ function App() {
     ipcRenderer.send(SEND_SSEC_PING, "send");
     ipcRenderer.send(SEND_BITCOIN_PING, "send");
     ipcRenderer.send(SEND_KIMCHIPREMIUM_PING, "send");
-
     replyPing();
   };
 
@@ -150,7 +148,7 @@ function App() {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setUS10YEARBONDp(price);
       setUS10YEARBONDpc(priceChange);
-      setUS10YEARBONDpcp("(" + priceChangePercentage + ")");
+      setUS10YEARBONDpcp(priceChangePercentage);
     });
     ipcRenderer.once(REPLY_SSEC_PING, (event, res) => {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
@@ -162,7 +160,7 @@ function App() {
       const [price, priceChange, priceChangePercentage] = replyParser(res);
       setBITCOINp(price);
       setBITCOINpc(priceChange);
-      setBITCOINpcp("(" + priceChangePercentage + ")");
+      setBITCOINpcp(priceChangePercentage);
     });
     ipcRenderer.once(REPLY_KIMCHIPREMIUM_PING, (event, res) => {
       setKIMCHIPREMIUMpc(res);
@@ -174,43 +172,42 @@ function App() {
     priceChange: string,
     priceChangePercentage: string
   ) {
-    switch (priceChange.charAt(0)) {
-      case "+":
-        return (
-          <Box
-            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-          >
-            <Box sx={{ color: "#D02C2C", fontSize: "1.7rem" }}>{price}</Box>
-            <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
-            <Box sx={{ color: "#D02C2C" }}>
-              {priceChange} {priceChangePercentage}
-            </Box>
+    if (parseFloat(priceChange) > 0) {
+      return (
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Box sx={{ color: "#D02C2C", fontSize: "1.7rem" }}>{price}</Box>
+          <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
+          <Box sx={{ color: "#D02C2C" }}>
+            +{priceChange} (+{priceChangePercentage}%)
           </Box>
-        );
-      case "-":
-        return (
-          <Box
-            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-          >
-            <Box sx={{ color: "#127EFF", fontSize: "1.7rem" }}>{price}</Box>
-            <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
-            <Box sx={{ color: "#127EFF" }}>
-              {priceChange} {priceChangePercentage}
-            </Box>
+        </Box>
+      );
+    } else if (parseFloat(priceChange) < 0) {
+      return (
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Box sx={{ color: "#127EFF", fontSize: "1.7rem" }}>{price}</Box>
+          <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
+          <Box sx={{ color: "#127EFF" }}>
+            {priceChange} ({priceChangePercentage}%)
           </Box>
-        );
-      default:
-        return (
-          <Box
-            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-          >
-            <Box sx={{ fontSize: "1.7rem" }}>{price}</Box>
-            <HorizontalRuleIcon fontSize="medium" />
-            <Box>
-              {priceChange} {priceChangePercentage}
-            </Box>
+        </Box>
+      );
+    } else {
+      return (
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Box sx={{ fontSize: "1.7rem" }}>{price}</Box>
+          <HorizontalRuleIcon fontSize="medium" />
+          <Box>
+            {priceChange} ({priceChangePercentage}%)
           </Box>
-        );
+        </Box>
+      );
     }
   }
 
