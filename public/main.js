@@ -75,6 +75,36 @@ async function getKimchiPremium(event, replyChannel) {
   window.destroy();
 }
 
+async function getBitcoin(event, replyChannel) {
+  try {
+    const browser = await pie.connect(app, puppeteer);
+
+    const window = new BrowserWindow({ show: false });
+    const url = "https://cryprice.com/";
+    await window.loadURL(url);
+
+    const page = await pie.getPage(browser, window);
+    await page.waitForSelector("#upbit_binance_btc", { visible: true });
+    const data = await page.$("#upbit_binance_btc");
+    const evalData = await page.evaluate((element) => {
+      return (
+        element.textContent
+          .split(" ")
+          .at(4)
+          .replaceAll("\n", "")
+          .replaceAll("\t", "") +
+        " " +
+        element.textContent.split(" ").at(7)
+      );
+    }, data);
+    // console.log(evalData);
+    event.reply(replyChannel, evalData);
+    window.destroy();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 app.whenReady().then(() => {
   createWindow();
 });
@@ -108,7 +138,7 @@ async function getInvestingCom(pairId, event, replyChannel) {
 
 async function getInvestingComCurrencies(pairId, event, replyChannel) {
   try {
-    const apiResponse = await investing(pairId, "P1D", "PT15M", 120); // With optional params
+    const apiResponse = await investing(pairId, "P1D", "PT15M", 120);
     const price = apiResponse.at(-1).price_close.toFixed(2).toLocaleString();
     let priceChange = (
       apiResponse.at(-1).price_close - apiResponse.at(0).price_close
@@ -129,14 +159,14 @@ async function getInvestingComCurrencies(pairId, event, replyChannel) {
   }
 }
 
-async function getInvestingComCrypto(pairId, event, replyChannel) {
+async function getInvestingComRatesBonds(pairId, event, replyChannel) {
   try {
-    const apiResponse = await investing(pairId, undefined, "PT1M", 120);
-    const price = apiResponse.at(-1).price_close.toFixed(2).toLocaleString();
+    const apiResponse = await investing(pairId, "P1D", "PT30M", 120);
+    const price = apiResponse.at(-1).price_close.toFixed(3).toLocaleString();
     let priceChange = (
       apiResponse.at(-1).price_close - apiResponse.at(-2).price_close
     )
-      .toFixed(2)
+      .toFixed(3)
       .toLocaleString();
     const priceChangePercentage = (
       (priceChange * 100) /
@@ -202,8 +232,8 @@ ipcMain.on(SEND_KOSDAQ_PING, (event, arg) => {
 
 ipcMain.on(SEND_US10YEARBOND_PING, (event, arg) => {
   // const url = "https://www.investing.com/rates-bonds/u.s.-10-year-bond-yield";
-  const pairId = "rates-bonds/u.s.-10-year-bond-yield";
-  getInvestingCom(pairId, event, REPLY_US10YEARBOND_PING);
+  const pairId = "23705";
+  getInvestingComRatesBonds(pairId, event, REPLY_US10YEARBOND_PING);
 });
 
 ipcMain.on(SEND_SSEC_PING, (event, arg) => {
@@ -214,8 +244,8 @@ ipcMain.on(SEND_SSEC_PING, (event, arg) => {
 
 ipcMain.on(SEND_BITCOIN_PING, (event, arg) => {
   // const url = "https://www.investing.com/crypto/bitcoin";
-  const pairId = "1057391";
-  getInvestingComCrypto(pairId, event, REPLY_BITCOIN_PING);
+  // const pairId = "1057391";
+  getBitcoin(event, REPLY_BITCOIN_PING);
 });
 
 ipcMain.on(SEND_KIMCHIPREMIUM_PING, (event, arg) => {

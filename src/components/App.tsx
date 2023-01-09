@@ -68,7 +68,7 @@ function App() {
   const [SSECpc, setSSECpc] = useState("");
   const [SSECpcp, setSSECpcp] = useState("");
   const [BITCOINp, setBITCOINp] = useState("");
-  const [BITCOINpc, setBITCOINpc] = useState("");
+  // const [BITCOINpc, setBITCOINpc] = useState("");
   const [BITCOINpcp, setBITCOINpcp] = useState("");
   // const [KIMCHIPREMIUMp, setKIMCHIPREMIUMp] = useState("");
   const [KIMCHIPREMIUMpc, setKIMCHIPREMIUMpc] = useState("");
@@ -157,9 +157,9 @@ function App() {
       setSSECpcp(priceChangePercentage);
     });
     ipcRenderer.once(REPLY_BITCOIN_PING, (event, res) => {
-      const [price, priceChange, priceChangePercentage] = replyParser(res);
+      const [price, priceChangePercentage] = replyParser(res);
       setBITCOINp(price);
-      setBITCOINpc(priceChange);
+      // setBITCOINpc(priceChange);
       setBITCOINpcp(priceChangePercentage);
     });
     ipcRenderer.once(REPLY_KIMCHIPREMIUM_PING, (event, res) => {
@@ -206,6 +206,40 @@ function App() {
           <Box>
             {priceChange} ({priceChangePercentage}%)
           </Box>
+        </Box>
+      );
+    }
+  }
+
+  function switchArrowBitcoin(price: string, priceChangePercentage: string) {
+    if (parseFloat(priceChangePercentage.replace("%", "")) > 0) {
+      return (
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Box sx={{ color: "#D02C2C", fontSize: "1.7rem" }}>{price}</Box>
+          <UploadIcon fontSize="medium" sx={{ color: "#D02C2C" }} />
+          <Box sx={{ color: "#D02C2C" }}>(+{priceChangePercentage})</Box>
+        </Box>
+      );
+    } else if (parseFloat(priceChangePercentage.replace("%", "")) < 0) {
+      return (
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Box sx={{ color: "#127EFF", fontSize: "1.7rem" }}>{price}</Box>
+          <DownloadIcon fontSize="medium" sx={{ color: "#127EFF" }} />
+          <Box sx={{ color: "#127EFF" }}>(-{priceChangePercentage})</Box>
+        </Box>
+      );
+    } else {
+      return (
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Box sx={{ fontSize: "1.7rem" }}>{price}</Box>
+          <HorizontalRuleIcon fontSize="medium" />
+          <Box>({priceChangePercentage})</Box>
         </Box>
       );
     }
@@ -380,7 +414,7 @@ function App() {
             <div className="div-bitcoin-title">{"Bitcoin"}</div>
             <div className="div-bitcoin-subtitle">{"비트코인 (1BTC = $)"}</div>
             <div className="div-bitcoin-price">
-              {switchArroow(BITCOINp, BITCOINpc, BITCOINpcp)}
+              {switchArrowBitcoin(BITCOINp, BITCOINpcp)}
             </div>
           </Box>
           <Box className="box-kimchi">
