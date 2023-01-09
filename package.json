@@ -49,7 +49,8 @@
     "eject": "react-scripts eject",
     "electron": "wait-on http://localhost:3000 && electron .",
     "electron:build": "rm -rf ./dist && rm -rf ./build && yarn build && electron-builder -c.extraMetadata.main=build/main.js",
-    "electron:build:windows": "rm -rf ./dist && rm -rf ./build && yarn build && electron-builder -w portable --x64 -c.extraMetadata.main=build/main.js"
+    "electron:build:windows": "rm -rf ./dist && rm -rf ./build && yarn build && electron-builder -w --x64 -c.extraMetadata.main=build/main.js",
+    "electron:build:windows:portable": "rm -rf ./dist && rm -rf ./build && yarn build && electron-builder -w portable --x64 -c.extraMetadata.main=build/main.js"
   },
   "build": {
     "extends": null,

@@ -297,7 +297,10 @@ function App() {
               timezone={"UTC"}
               onChange={async () => {
                 console.log(new Date().getUTCSeconds());
-                if (new Date().getUTCSeconds() === 0) {
+                if (
+                  new Date().getUTCSeconds() === 0 ||
+                  new Date().getUTCSeconds() === 30
+                ) {
                   await sendPing();
                 }
               }}
